@@ -6,8 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.onEach
+import traffic.arbitration.test.app.ru.R
 import traffic.arbitration.test.app.ru.databinding.FragmentSplashBinding
+import traffic.arbitration.test.app.ru.utils.observeInLifecycle
 
 @AndroidEntryPoint
 class SplashFragment: Fragment() {
@@ -33,7 +37,17 @@ class SplashFragment: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.start()
+        setupSubscriberAction()
+    }
+
+    private fun setupSubscriberAction() {
+        viewModel.actionFlow.onEach { action ->
+            when(action) {
+                is SplashAction.NavigateToMain -> {
+                    findNavController().navigate(R.id.action_splashFragment_to_mainFragment)
+                }
+            }
+        }.observeInLifecycle(viewLifecycleOwner)
     }
 
 }
