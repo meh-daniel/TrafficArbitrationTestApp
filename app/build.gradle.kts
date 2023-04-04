@@ -41,6 +41,8 @@ android {
     buildFeatures.viewBinding = true
 }
 dependencies {
+    implementation("com.android.installreferrer:installreferrer:2.2")
+    implementation("com.appsflyer:af-android-sdk:6.9.0")
     implementation(Deps.Network.RETROFIT2)
     implementation(Deps.Network.RETROFIT2_GSON)
     implementation(Deps.Network.LOGGING_INERCEPTOR)
